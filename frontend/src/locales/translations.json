@@ -1,0 +1,290 @@
+{
+  "en": {
+    "common": {
+      "loading": "Loading...",
+      "error": "Error",
+      "success": "Success",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "save": "Save",
+      "edit": "Edit",
+      "delete": "Delete",
+      "view": "View",
+      "create": "Create",
+      "back": "Back",
+      "search": "Search",
+      "filter": "Filter",
+      "actions": "Actions",
+      "name": "Name",
+      "description": "Description",
+      "type": "Type",
+      "priority": "Priority",
+      "created": "Created",
+      "updated": "Updated"
+    },
+    "navigation": {
+      "events": "Events",
+      "dashboard": "Dashboard",
+      "analytics": "Analytics"
+    },
+    "events": {
+      "title": "Events Management",
+      "createNew": "Create New Event",
+      "createFirst": "Create First Event",
+      "noEventsFound": "No events found",
+      "loadingEvents": "Loading events...",
+      "eventDetails": "Event Details",
+      "editEvent": "Edit Event",
+      "createEvent": "Create Event",
+      "deleteConfirmTitle": "Confirm Delete",
+      "deleteConfirmMessage": "Are you sure you want to delete event \"{name}\"?",
+      "eventCreated": "Event created successfully",
+      "eventUpdated": "Event updated successfully",
+      "eventDeleted": "Event deleted successfully",
+      "failedToLoad": "Failed to load events",
+      "failedToCreate": "Failed to create event",
+      "failedToUpdate": "Failed to update event",
+      "failedToDelete": "Failed to delete event",
+      "failedToLoadDetails": "Failed to load event details"
+    },
+    "eventForm": {
+      "eventName": "Event Name",
+      "eventNamePlaceholder": "Enter event name",
+      "eventDescription": "Event Description",
+      "eventDescriptionPlaceholder": "Enter event description",
+      "eventType": "Event Type",
+      "selectType": "Select event type",
+      "eventPriority": "Event Priority",
+      "priorityLabel": "Priority (1-10)",
+      "checkingAdsPermission": "Checking ads permission for your location...",
+      "adsAllowed": "Ads are allowed in your region",
+      "adsNotAllowed": "Ads are not allowed in your region",
+      "failedToCheckAds": "Failed to check ads permission",
+      "nameRequired": "Event name is required",
+      "descriptionRequired": "Event description is required",
+      "typeRequired": "Event type is required",
+      "priorityRequired": "Event priority is required",
+      "priorityValidation": "Priority must be between 1 and 10"
+    },
+    "eventTypes": {
+      "app": "App",
+      "liveops": "Live Ops",
+      "crosspromo": "Cross Promo",
+      "ads": "Ads"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "critical": "Critical"
+    },
+    "validation": {
+      "required": "This field is required",
+      "minLength": "Minimum length is {min} characters",
+      "maxLength": "Maximum length is {max} characters",
+      "invalidEmail": "Please enter a valid email address",
+      "invalidUrl": "Please enter a valid URL",
+      "numberRange": "Value must be between {min} and {max}"
+    },
+    "errors": {
+      "networkError": "Network error occurred",
+      "serverError": "Server error occurred",
+      "unauthorized": "Unauthorized access",
+      "notFound": "Resource not found",
+      "validationFailed": "Validation failed",
+      "unknownError": "An unknown error occurred"
+    }
+  },
+  "es": {
+    "common": {
+      "loading": "Cargando...",
+      "error": "Error",
+      "success": "Éxito",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar",
+      "save": "Guardar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "view": "Ver",
+      "create": "Crear",
+      "back": "Atrás",
+      "search": "Buscar",
+      "filter": "Filtrar",
+      "actions": "Acciones",
+      "name": "Nombre",
+      "description": "Descripción",
+      "type": "Tipo",
+      "priority": "Prioridad",
+      "created": "Creado",
+      "updated": "Actualizado"
+    },
+    "navigation": {
+      "events": "Eventos",
+      "dashboard": "Panel",
+      "analytics": "Analíticas"
+    },
+    "events": {
+      "title": "Gestión de Eventos",
+      "createNew": "Crear Nuevo Evento",
+      "createFirst": "Crear Primer Evento",
+      "noEventsFound": "No se encontraron eventos",
+      "loadingEvents": "Cargando eventos...",
+      "eventDetails": "Detalles del Evento",
+      "editEvent": "Editar Evento",
+      "createEvent": "Crear Evento",
+      "deleteConfirmTitle": "Confirmar Eliminación",
+      "deleteConfirmMessage": "¿Estás seguro de que quieres eliminar el evento \"{name}\"?",
+      "eventCreated": "Evento creado exitosamente",
+      "eventUpdated": "Evento actualizado exitosamente",
+      "eventDeleted": "Evento eliminado exitosamente",
+      "failedToLoad": "Error al cargar eventos",
+      "failedToCreate": "Error al crear evento",
+      "failedToUpdate": "Error al actualizar evento",
+      "failedToDelete": "Error al eliminar evento",
+      "failedToLoadDetails": "Error al cargar detalles del evento"
+    },
+    "eventForm": {
+      "eventName": "Nombre del Evento",
+      "eventNamePlaceholder": "Ingresa el nombre del evento",
+      "eventDescription": "Descripción del Evento",
+      "eventDescriptionPlaceholder": "Ingresa la descripción del evento",
+      "eventType": "Tipo de Evento",
+      "selectType": "Selecciona el tipo de evento",
+      "eventPriority": "Prioridad del Evento",
+      "priorityLabel": "Prioridad (1-10)",
+      "checkingAdsPermission": "Verificando permisos de anuncios para tu ubicación...",
+      "adsAllowed": "Los anuncios están permitidos en tu región",
+      "adsNotAllowed": "Los anuncios no están permitidos en tu región",
+      "failedToCheckAds": "Error al verificar permisos de anuncios",
+      "nameRequired": "El nombre del evento es requerido",
+      "descriptionRequired": "La descripción del evento es requerida",
+      "typeRequired": "El tipo de evento es requerido",
+      "priorityRequired": "La prioridad del evento es requerida",
+      "priorityValidation": "La prioridad debe estar entre 1 y 10"
+    },
+    "eventTypes": {
+      "app": "Aplicación",
+      "liveops": "Operaciones en Vivo",
+      "crosspromo": "Promoción Cruzada",
+      "ads": "Anuncios"
+    },
+    "priority": {
+      "low": "Baja",
+      "medium": "Media",
+      "high": "Alta",
+      "critical": "Crítica"
+    },
+    "validation": {
+      "required": "Este campo es requerido",
+      "minLength": "La longitud mínima es {min} caracteres",
+      "maxLength": "La longitud máxima es {max} caracteres",
+      "invalidEmail": "Por favor ingresa un email válido",
+      "invalidUrl": "Por favor ingresa una URL válida",
+      "numberRange": "El valor debe estar entre {min} y {max}"
+    },
+    "errors": {
+      "networkError": "Error de red",
+      "serverError": "Error del servidor",
+      "unauthorized": "Acceso no autorizado",
+      "notFound": "Recurso no encontrado",
+      "validationFailed": "Validación fallida",
+      "unknownError": "Ocurrió un error desconocido"
+    }
+  },
+  "fr": {
+    "common": {
+      "loading": "Chargement...",
+      "error": "Erreur",
+      "success": "Succès",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "save": "Sauvegarder",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "view": "Voir",
+      "create": "Créer",
+      "back": "Retour",
+      "search": "Rechercher",
+      "filter": "Filtrer",
+      "actions": "Actions",
+      "name": "Nom",
+      "description": "Description",
+      "type": "Type",
+      "priority": "Priorité",
+      "created": "Créé",
+      "updated": "Mis à jour"
+    },
+    "navigation": {
+      "events": "Événements",
+      "dashboard": "Tableau de bord",
+      "analytics": "Analytiques"
+    },
+    "events": {
+      "title": "Gestion des Événements",
+      "createNew": "Créer un Nouvel Événement",
+      "createFirst": "Créer le Premier Événement",
+      "noEventsFound": "Aucun événement trouvé",
+      "loadingEvents": "Chargement des événements...",
+      "eventDetails": "Détails de l'Événement",
+      "editEvent": "Modifier l'Événement",
+      "createEvent": "Créer un Événement",
+      "deleteConfirmTitle": "Confirmer la Suppression",
+      "deleteConfirmMessage": "Êtes-vous sûr de vouloir supprimer l'événement \"{name}\" ?",
+      "eventCreated": "Événement créé avec succès",
+      "eventUpdated": "Événement mis à jour avec succès",
+      "eventDeleted": "Événement supprimé avec succès",
+      "failedToLoad": "Échec du chargement des événements",
+      "failedToCreate": "Échec de la création de l'événement",
+      "failedToUpdate": "Échec de la mise à jour de l'événement",
+      "failedToDelete": "Échec de la suppression de l'événement",
+      "failedToLoadDetails": "Échec du chargement des détails de l'événement"
+    },
+    "eventForm": {
+      "eventName": "Nom de l'Événement",
+      "eventNamePlaceholder": "Entrez le nom de l'événement",
+      "eventDescription": "Description de l'Événement",
+      "eventDescriptionPlaceholder": "Entrez la description de l'événement",
+      "eventType": "Type d'Événement",
+      "selectType": "Sélectionnez le type d'événement",
+      "eventPriority": "Priorité de l'Événement",
+      "priorityLabel": "Priorité (1-10)",
+      "checkingAdsPermission": "Vérification des permissions publicitaires pour votre localisation...",
+      "adsAllowed": "Les publicités sont autorisées dans votre région",
+      "adsNotAllowed": "Les publicités ne sont pas autorisées dans votre région",
+      "failedToCheckAds": "Échec de la vérification des permissions publicitaires",
+      "nameRequired": "Le nom de l'événement est requis",
+      "descriptionRequired": "La description de l'événement est requise",
+      "typeRequired": "Le type d'événement est requis",
+      "priorityRequired": "La priorité de l'événement est requise",
+      "priorityValidation": "La priorité doit être entre 1 et 10"
+    },
+    "eventTypes": {
+      "app": "Application",
+      "liveops": "Opérations en Direct",
+      "crosspromo": "Promotion Croisée",
+      "ads": "Publicités"
+    },
+    "priority": {
+      "low": "Faible",
+      "medium": "Moyenne",
+      "high": "Élevée",
+      "critical": "Critique"
+    },
+    "validation": {
+      "required": "Ce champ est requis",
+      "minLength": "La longueur minimale est de {min} caractères",
+      "maxLength": "La longueur maximale est de {max} caractères",
+      "invalidEmail": "Veuillez entrer une adresse email valide",
+      "invalidUrl": "Veuillez entrer une URL valide",
+      "numberRange": "La valeur doit être entre {min} et {max}"
+    },
+    "errors": {
+      "networkError": "Erreur réseau",
+      "serverError": "Erreur serveur",
+      "unauthorized": "Accès non autorisé",
+      "notFound": "Ressource non trouvée",
+      "validationFailed": "Validation échouée",
+      "unknownError": "Une erreur inconnue s'est produite"
+    }
+  }
+}

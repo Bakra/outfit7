@@ -1,0 +1,19 @@
+# Node
+node_modules/
+dist/
+.env
+.env.*
+# Vite cache
+frontend/.vitepress/dist
+frontend/dist
+# Vercel or Netlify
+.vercel/
+.netlify/
+# Logs
+*.log
+# Mac
+.DS_Store
+# Others
+coverage/
+.idea/
+.vscode/
