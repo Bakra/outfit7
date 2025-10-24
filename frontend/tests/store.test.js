@@ -1,170 +1,172 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { setActivePinia, createPinia } from 'pinia'
-import { useEventsStore } from '../src/stores/events.js'
-import { eventsApi } from '../src/services/api.js'
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { setActivePinia, createPinia } from "pinia";
+import { useEventsStore } from "../src/stores/events.js";
+import { eventsApi } from "../src/services/api.js";
 
 // Mock the API service
-vi.mock('../src/services/api.js', () => ({
+vi.mock("../src/services/api.js", () => ({
   eventsApi: {
     getEvents: vi.fn(),
     getEvent: vi.fn(),
     createEvent: vi.fn(),
     updateEvent: vi.fn(),
     deleteEvent: vi.fn(),
-    checkAdsPermission: vi.fn()
+    checkAdsPermission: vi.fn(),
   },
   EventType: {
-    APP: 'app',
-    LIVEOPS: 'liveops',
-    CROSSPROMO: 'crosspromo',
-    ADS: 'ads'
-  }
-}))
+    APP: "app",
+    LIVEOPS: "liveops",
+    CROSSPROMO: "crosspromo",
+    ADS: "ads",
+  },
+}));
 
-describe('Events Store', () => {
-  let store
+describe("Events Store", () => {
+  let store;
 
   beforeEach(() => {
-    setActivePinia(createPinia())
-    store = useEventsStore()
-    vi.clearAllMocks()
-  })
+    setActivePinia(createPinia());
+    store = useEventsStore();
+    vi.clearAllMocks();
+  });
 
-  describe('initial state', () => {
-    it('should have correct initial state', () => {
-      expect(store.events).toEqual([])
-      expect(store.currentEvent).toBe(null)
-      expect(store.loading).toBe(false)
-      expect(store.error).toBe(null)
-      expect(store.canCreateAds).toBe(false)
-    })
-  })
+  describe("initial state", () => {
+    it("should have correct initial state", () => {
+      expect(store.events).toEqual([]);
+      expect(store.currentEvent).toBe(null);
+      expect(store.loading).toBe(false);
+      expect(store.error).toBe(null);
+      expect(store.canCreateAds).toBe(false);
+    });
+  });
 
-  describe('getters', () => {
-    it('should find event by id', () => {
+  describe("getters", () => {
+    it("should find event by id", () => {
       store.events = [
-        { id: '1', name: 'Event 1' },
-        { id: '2', name: 'Event 2' }
-      ]
+        { id: "1", name: "Event 1" },
+        { id: "2", name: "Event 2" },
+      ];
 
-      const event = store.getEventById('1')
-      expect(event).toEqual({ id: '1', name: 'Event 1' })
-    })
+      const event = store.getEventById("1");
+      expect(event).toEqual({ id: "1", name: "Event 1" });
+    });
 
-    it('should return correct event count', () => {
-      store.events = [{ id: '1' }, { id: '2' }, { id: '3' }]
-      expect(store.eventCount).toBe(3)
-    })
+    it("should return correct event count", () => {
+      store.events = [{ id: "1" }, { id: "2" }, { id: "3" }];
+      expect(store.eventCount).toBe(3);
+    });
 
-    it('should detect error state', () => {
-      expect(store.hasError).toBe(false)
-      store.error = 'Some error'
-      expect(store.hasError).toBe(true)
-    })
-  })
+    it("should detect error state", () => {
+      expect(store.hasError).toBe(false);
+      store.error = "Some error";
+      expect(store.hasError).toBe(true);
+    });
+  });
 
-  describe('actions', () => {
-    describe('fetchEvents', () => {
-      it('should fetch events successfully', async () => {
+  describe("actions", () => {
+    describe("fetchEvents", () => {
+      it("should fetch events successfully", async () => {
         const mockEvents = [
-          { id: '1', name: 'Event 1' },
-          { id: '2', name: 'Event 2' }
-        ]
-        eventsApi.getEvents.mockResolvedValueOnce(mockEvents)
+          { id: "1", name: "Event 1" },
+          { id: "2", name: "Event 2" },
+        ];
+        eventsApi.getEvents.mockResolvedValueOnce(mockEvents);
 
-        await store.fetchEvents()
+        await store.fetchEvents();
 
-        expect(store.loading).toBe(false)
-        expect(store.events).toEqual(mockEvents)
-        expect(store.error).toBe(null)
-        expect(eventsApi.getEvents).toHaveBeenCalledOnce()
-      })
+        expect(store.loading).toBe(false);
+        expect(store.events).toEqual(mockEvents);
+        expect(store.error).toBe(null);
+        expect(eventsApi.getEvents).toHaveBeenCalledOnce();
+      });
 
-      it('should handle fetch errors', async () => {
-        const errorMessage = 'Failed to fetch'
-        eventsApi.getEvents.mockRejectedValueOnce(new Error(errorMessage))
+      it("should handle fetch errors", async () => {
+        const errorMessage = "Failed to fetch";
+        eventsApi.getEvents.mockRejectedValueOnce(new Error(errorMessage));
 
-        await expect(store.fetchEvents()).rejects.toThrow(errorMessage)
-        expect(store.loading).toBe(false)
-        expect(store.error).toBe(errorMessage)
-      })
-    })
+        await expect(store.fetchEvents()).rejects.toThrow(errorMessage);
+        expect(store.loading).toBe(false);
+        expect(store.error).toBe(errorMessage);
+      });
+    });
 
-    describe('createEvent', () => {
-      it('should create event successfully', async () => {
-        const eventData = { name: 'New Event', description: 'Description' }
-        const createdEvent = { id: '1', ...eventData }
-        eventsApi.createEvent.mockResolvedValueOnce(createdEvent)
+    describe("createEvent", () => {
+      it("should create event successfully", async () => {
+        const eventData = { name: "New Event", description: "Description" };
+        const createdEvent = { id: "1", ...eventData };
+        eventsApi.createEvent.mockResolvedValueOnce(createdEvent);
 
-        const result = await store.createEvent(eventData)
+        const result = await store.createEvent(eventData);
 
-        expect(result).toEqual(createdEvent)
-        expect(store.events).toContain(createdEvent)
-        expect(store.loading).toBe(false)
-        expect(store.error).toBe(null)
-      })
+        expect(result).toEqual(createdEvent);
+        expect(store.events).toEqual([createdEvent]);
+        expect(store.loading).toBe(false);
+        expect(store.error).toBe(null);
+      });
 
-      it('should handle create errors', async () => {
-        const errorMessage = 'Creation failed'
-        eventsApi.createEvent.mockRejectedValueOnce(new Error(errorMessage))
+      it("should handle create errors", async () => {
+        const errorMessage = "Creation failed";
+        eventsApi.createEvent.mockRejectedValueOnce(new Error(errorMessage));
 
-        await expect(store.createEvent({})).rejects.toThrow(errorMessage)
-        expect(store.loading).toBe(false)
-        expect(store.error).toBe(errorMessage)
-      })
-    })
+        await expect(store.createEvent({})).rejects.toThrow(errorMessage);
+        expect(store.loading).toBe(false);
+        expect(store.error).toBe(errorMessage);
+      });
+    });
 
-    describe('updateEvent', () => {
-      it('should update event successfully', async () => {
-        const originalEvent = { id: '1', name: 'Original' }
-        const updatedEvent = { id: '1', name: 'Updated' }
-        store.events = [originalEvent]
-        
-        eventsApi.updateEvent.mockResolvedValueOnce(updatedEvent)
+    describe("updateEvent", () => {
+      it("should update event successfully", async () => {
+        const originalEvent = { id: "1", name: "Original" };
+        const updatedEvent = { id: "1", name: "Updated" };
+        store.events = [originalEvent];
 
-        const result = await store.updateEvent('1', { name: 'Updated' })
+        eventsApi.updateEvent.mockResolvedValueOnce(updatedEvent);
 
-        expect(result).toEqual(updatedEvent)
-        expect(store.events[0]).toEqual(updatedEvent)
-        expect(store.currentEvent).toEqual(updatedEvent)
-      })
-    })
+        const result = await store.updateEvent("1", { name: "Updated" });
 
-    describe('deleteEvent', () => {
-      it('should delete event successfully', async () => {
-        const eventToDelete = { id: '1', name: 'Event 1' }
-        const eventToKeep = { id: '2', name: 'Event 2' }
-        store.events = [eventToDelete, eventToKeep]
-        store.currentEvent = eventToDelete
-        
-        eventsApi.deleteEvent.mockResolvedValueOnce()
+        expect(result).toEqual(updatedEvent);
+        expect(store.events[0]).toEqual(updatedEvent);
+        expect(store.currentEvent).toEqual(updatedEvent);
+      });
+    });
 
-        await store.deleteEvent('1')
+    describe("deleteEvent", () => {
+      it("should delete event successfully", async () => {
+        const eventToDelete = { id: "1", name: "Event 1" };
+        const eventToKeep = { id: "2", name: "Event 2" };
+        store.events = [eventToDelete, eventToKeep];
+        store.currentEvent = eventToDelete;
 
-        expect(store.events).toEqual([eventToKeep])
-        expect(store.currentEvent).toBe(null)
-        expect(eventsApi.deleteEvent).toHaveBeenCalledWith('1')
-      })
-    })
+        eventsApi.deleteEvent.mockResolvedValueOnce();
 
-    describe('checkAdsPermission', () => {
-      it('should check ads permission successfully', async () => {
-        eventsApi.checkAdsPermission.mockResolvedValueOnce(true)
+        await store.deleteEvent("1");
 
-        const result = await store.checkAdsPermission()
+        expect(store.events).toEqual([eventToKeep]);
+        expect(store.currentEvent).toBe(null);
+        expect(eventsApi.deleteEvent).toHaveBeenCalledWith("1");
+      });
+    });
 
-        expect(result).toBe(true)
-        expect(store.canCreateAds).toBe(true)
-      })
+    describe("checkAdsPermission", () => {
+      it("should check ads permission successfully", async () => {
+        eventsApi.checkAdsPermission.mockResolvedValueOnce(true);
 
-      it('should handle permission check errors', async () => {
-        eventsApi.checkAdsPermission.mockRejectedValueOnce(new Error('Network error'))
+        const result = await store.checkAdsPermission();
 
-        const result = await store.checkAdsPermission()
+        expect(result).toBe(true);
+        expect(store.canCreateAds).toBe(true);
+      });
 
-        expect(result).toBe(false)
-        expect(store.canCreateAds).toBe(false)
-      })
-    })
-  })
-})
+      it("should handle permission check errors", async () => {
+        eventsApi.checkAdsPermission.mockRejectedValueOnce(
+          new Error("Network error")
+        );
+
+        const result = await store.checkAdsPermission();
+
+        expect(result).toBe(false);
+        expect(store.canCreateAds).toBe(false);
+      });
+    });
+  });
+});

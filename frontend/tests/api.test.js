@@ -1,163 +1,211 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import axios from 'axios'
-import { eventsApi, EventType } from '../src/services/api.js'
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import axios from "axios";
+import { eventsApi, EventType } from "../src/services/api.js";
 
 // Mock axios
-vi.mock('axios')
-const mockedAxios = vi.mocked(axios)
+vi.mock("axios", () => {
+  const mockedAxios = {
+    create: vi.fn(),
+    get: vi.fn(),
+    post: vi.fn(),
+    put: vi.fn(),
+    delete: vi.fn(),
+    interceptors: {
+      request: {
+        use: vi.fn(),
+      },
+      response: {
+        use: vi.fn(),
+      },
+    },
+  };
 
-describe('Events API Service', () => {
+  // Make axios.create return an instance with interceptors
+  mockedAxios.create.mockReturnValue({
+    get: mockedAxios.get,
+    post: mockedAxios.post,
+    put: mockedAxios.put,
+    delete: mockedAxios.delete,
+    interceptors: {
+      request: {
+        use: vi.fn(),
+      },
+      response: {
+        use: vi.fn(),
+      },
+    },
+  });
+
+  return {
+    default: mockedAxios,
+    __esModule: true,
+  };
+});
+
+const mockedAxios = vi.mocked(axios);
+
+describe("Events API Service", () => {
   beforeEach(() => {
-    vi.clearAllMocks()
-    
-    // Mock axios.create to return mocked axios instance
-    mockedAxios.create = vi.fn(() => ({
-      get: mockedAxios.get,
-      post: mockedAxios.post,
-      put: mockedAxios.put,
-      delete: mockedAxios.delete,
-    }))
-  })
+    vi.clearAllMocks();
+  });
 
-  describe('getEvents', () => {
-    it('should fetch all events successfully', async () => {
+  describe("getEvents", () => {
+    it("should fetch all events successfully", async () => {
       const mockEvents = [
         {
-          id: '1',
-          name: 'Test Event',
-          description: 'Test Description',
+          id: "1",
+          name: "Test Event",
+          description: "Test Description",
           type: EventType.APP,
-          priority: 5
-        }
-      ]
-      
-      mockedAxios.get.mockResolvedValueOnce({ data: mockEvents })
+          priority: 5,
+        },
+      ];
 
-      const result = await eventsApi.getEvents()
-      
-      expect(mockedAxios.get).toHaveBeenCalledWith('/events')
-      expect(result).toEqual(mockEvents)
-    })
+      mockedAxios.get.mockResolvedValueOnce({ data: mockEvents });
 
-    it('should throw error when API call fails', async () => {
-      mockedAxios.get.mockRejectedValueOnce(new Error('Network error'))
+      const result = await eventsApi.getEvents();
 
-      await expect(eventsApi.getEvents()).rejects.toThrow('Failed to fetch events')
-    })
-  })
+      expect(mockedAxios.get).toHaveBeenCalledWith("/events");
+      expect(result).toEqual(mockEvents);
+    });
 
-  describe('createEvent', () => {
-    it('should create event successfully', async () => {
+    it("should throw error when API call fails", async () => {
+      mockedAxios.get.mockRejectedValueOnce(new Error("Network error"));
+
+      await expect(eventsApi.getEvents()).rejects.toThrow(
+        "Failed to fetch events"
+      );
+    });
+  });
+
+  describe("createEvent", () => {
+    it("should create event successfully", async () => {
       const eventData = {
-        name: 'New Event',
-        description: 'New Description',
+        name: "New Event",
+        description: "New Description",
         type: EventType.APP,
-        priority: 3
-      }
-      
-      const mockResponse = { id: '1', ...eventData, createdAt: new Date(), updatedAt: new Date() }
-      mockedAxios.post.mockResolvedValueOnce({ data: mockResponse })
+        priority: 3,
+      };
 
-      const result = await eventsApi.createEvent(eventData)
-      
-      expect(mockedAxios.post).toHaveBeenCalledWith('/events', eventData)
-      expect(result).toEqual(mockResponse)
-    })
+      const mockResponse = {
+        id: "1",
+        ...eventData,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      mockedAxios.post.mockResolvedValueOnce({ data: mockResponse });
 
-    it('should handle validation errors', async () => {
-      const eventData = { name: '', description: '', type: '', priority: -1 }
-      
+      const result = await eventsApi.createEvent(eventData);
+
+      expect(mockedAxios.post).toHaveBeenCalledWith("/events", eventData);
+      expect(result).toEqual(mockResponse);
+    });
+
+    it("should handle validation errors", async () => {
+      const eventData = { name: "", description: "", type: "", priority: -1 };
+
       mockedAxios.post.mockRejectedValueOnce({
-        response: { status: 400, data: { message: 'Validation failed' } }
-      })
+        response: { status: 400, data: { message: "Validation failed" } },
+      });
 
-      await expect(eventsApi.createEvent(eventData)).rejects.toThrow('Validation failed')
-    })
+      await expect(eventsApi.createEvent(eventData)).rejects.toThrow(
+        "Validation failed"
+      );
+    });
 
-    it('should handle conflict errors', async () => {
+    it("should handle conflict errors", async () => {
       const eventData = {
-        name: 'Existing Event',
-        description: 'Description',
+        name: "Existing Event",
+        description: "Description",
         type: EventType.APP,
-        priority: 5
-      }
-      
+        priority: 5,
+      };
+
       mockedAxios.post.mockRejectedValueOnce({
-        response: { status: 409 }
-      })
+        response: { status: 409 },
+      });
 
-      await expect(eventsApi.createEvent(eventData)).rejects.toThrow('Event name already exists')
-    })
-  })
+      await expect(eventsApi.createEvent(eventData)).rejects.toThrow(
+        "Event name already exists"
+      );
+    });
+  });
 
-  describe('updateEvent', () => {
-    it('should update event successfully', async () => {
-      const eventId = '1'
-      const updateData = { name: 'Updated Event' }
-      const mockResponse = { id: eventId, ...updateData }
-      
-      mockedAxios.put.mockResolvedValueOnce({ data: mockResponse })
+  describe("updateEvent", () => {
+    it("should update event successfully", async () => {
+      const eventId = "1";
+      const updateData = { name: "Updated Event" };
+      const mockResponse = { id: eventId, ...updateData };
 
-      const result = await eventsApi.updateEvent(eventId, updateData)
-      
-      expect(mockedAxios.put).toHaveBeenCalledWith(`/events/${eventId}`, updateData)
-      expect(result).toEqual(mockResponse)
-    })
+      mockedAxios.put.mockResolvedValueOnce({ data: mockResponse });
 
-    it('should handle not found errors', async () => {
+      const result = await eventsApi.updateEvent(eventId, updateData);
+
+      expect(mockedAxios.put).toHaveBeenCalledWith(
+        `/events/${eventId}`,
+        updateData
+      );
+      expect(result).toEqual(mockResponse);
+    });
+
+    it("should handle not found errors", async () => {
       mockedAxios.put.mockRejectedValueOnce({
-        response: { status: 404 }
-      })
+        response: { status: 404 },
+      });
 
-      await expect(eventsApi.updateEvent('999', {})).rejects.toThrow('Event not found')
-    })
-  })
+      await expect(eventsApi.updateEvent("999", {})).rejects.toThrow(
+        "Event not found"
+      );
+    });
+  });
 
-  describe('deleteEvent', () => {
-    it('should delete event successfully', async () => {
-      const eventId = '1'
-      mockedAxios.delete.mockResolvedValueOnce({})
+  describe("deleteEvent", () => {
+    it("should delete event successfully", async () => {
+      const eventId = "1";
+      mockedAxios.delete.mockResolvedValueOnce({});
 
-      await eventsApi.deleteEvent(eventId)
-      
-      expect(mockedAxios.delete).toHaveBeenCalledWith(`/events/${eventId}`)
-    })
+      await eventsApi.deleteEvent(eventId);
 
-    it('should handle not found errors', async () => {
+      expect(mockedAxios.delete).toHaveBeenCalledWith(`/events/${eventId}`);
+    });
+
+    it("should handle not found errors", async () => {
       mockedAxios.delete.mockRejectedValueOnce({
-        response: { status: 404 }
-      })
+        response: { status: 404 },
+      });
 
-      await expect(eventsApi.deleteEvent('999')).rejects.toThrow('Event not found')
-    })
-  })
+      await expect(eventsApi.deleteEvent("999")).rejects.toThrow(
+        "Event not found"
+      );
+    });
+  });
 
-  describe('checkAdsPermission', () => {
-    it('should return true when ads are allowed', async () => {
+  describe("checkAdsPermission", () => {
+    it("should return true when ads are allowed", async () => {
       mockedAxios.get.mockResolvedValueOnce({
-        data: { canCreateAds: true }
-      })
+        data: { canCreateAds: true },
+      });
 
-      const result = await eventsApi.checkAdsPermission()
-      
-      expect(mockedAxios.get).toHaveBeenCalledWith('/events/ads-permission')
-      expect(result).toBe(true)
-    })
+      const result = await eventsApi.checkAdsPermission();
 
-    it('should return false when ads are not allowed', async () => {
+      expect(mockedAxios.get).toHaveBeenCalledWith("/events/ads-permission");
+      expect(result).toBe(true);
+    });
+
+    it("should return false when ads are not allowed", async () => {
       mockedAxios.get.mockResolvedValueOnce({
-        data: { canCreateAds: false }
-      })
+        data: { canCreateAds: false },
+      });
 
-      const result = await eventsApi.checkAdsPermission()
-      expect(result).toBe(false)
-    })
+      const result = await eventsApi.checkAdsPermission();
+      expect(result).toBe(false);
+    });
 
-    it('should return false when API call fails', async () => {
-      mockedAxios.get.mockRejectedValueOnce(new Error('Network error'))
+    it("should return false when API call fails", async () => {
+      mockedAxios.get.mockRejectedValueOnce(new Error("Network error"));
 
-      const result = await eventsApi.checkAdsPermission()
-      expect(result).toBe(false)
-    })
-  })
-})
+      const result = await eventsApi.checkAdsPermission();
+      expect(result).toBe(false);
+    });
+  });
+});
