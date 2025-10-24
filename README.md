@@ -4,6 +4,9 @@
 
 Events7 is an internal web tool built for the Analytics team to define and manage client events (such as button clicks) for tracking across mobile apps. It enables CRUD (Create, Read, Update, Delete) operations on event definitions with fields: `id`, `name`, `description`, `type` (crosspromo, liveops, app, ads), and `priority` (0-10). "ads" selection is restricted by geographical office using external GeoIP logic.
 
+
+<img width="881" height="409" alt="image" src="https://github.com/user-attachments/assets/342d50a8-61a0-47ca-bb2d-cc1b261ed497" />
+
 ## Monorepo Structure
 
 - `/frontend` - Vue 3 application (Vite)
